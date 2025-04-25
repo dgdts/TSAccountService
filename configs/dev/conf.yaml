@@ -1,0 +1,57 @@
+global:
+  namespace: Development
+  env_name: dev
+  local_ip: ${POD_IP}
+  container_name: ${HOSTNAME}
+
+mode: local
+
+hertz:
+  app: “YOUR-APP-NAME”
+  server: "enterbuild"
+  enable_pprof: true
+  enable_gzip: true
+  enable_access_log: true
+  service:
+    name: "ts_account_service"
+    addr: ":8888"
+
+log:
+  log_mode: console
+  log_level: debug
+  log_file_name: "log/hertz.log"
+  log_max_size: 10
+  log_max_age: 3
+  log_max_backups: 50
+
+registry:
+  name: nacos
+  namespace: "5b8d6e7c-c562-4001-b1b3-8a9be7cdabec"
+  registry_address:
+    - 10.11.100.90:8848
+  username: "nacos"
+  password: "fN2dJoX8LYRbxHJ1yU1x0aQ0vuylViYWuwLUUt"
+
+selector:
+  name: nacos
+  namespace: "5b8d6e7c-c562-4001-b1b3-8a9be7cdabec"
+  server_addr:
+    - 10.11.100.90:8848
+  username: "nacos"
+  password: "fN2dJoX8LYRbxHJ1yU1x0aQ0vuylViYWuwLUUt"
+
+config:
+  mode: local
+  local_config_path: ./configs/dev/biz_config.yaml
+
+  name: nacos
+  namespace: "5b8d6e7c-c562-4001-b1b3-8a9be7cdabec"
+  server_addr:
+    - 10.11.100.90:8848
+  username: "nacos"
+  password: "fN2dJoX8LYRbxHJ1yU1x0aQ0vuylViYWuwLUUt"
+
+prometheus:
+  enable: true
+  addr: ":9099"
+  path: "/prometheus/metrics"

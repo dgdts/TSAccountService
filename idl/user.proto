@@ -1,0 +1,94 @@
+// idl/cms_http_api/hello.proto
+syntax = "proto3";
+
+package user;
+
+option go_package = "user";
+
+import "api.proto";
+
+message LoginOrRegisterReq {
+	string email = 1;
+	string phone = 2;
+	string password = 3;
+	string verifyCode = 4;
+	string authType = 5;
+}
+
+message LoginOrRegisterResp {
+	string token = 1;
+}
+
+message Empty {}
+
+message GetUserBasicInfoResp {
+	string nickname = 1;
+	string userID = 2;
+	string avatar = 3;
+	int64 createTime = 4;
+	int64 updateTime = 5;
+}
+
+message UpdateUserInfoReq {
+	string nickname = 1;
+	string avatar = 2;
+}
+
+message ChangePasswordReq {
+	string oldPassword = 1;
+	string newPassword = 2;
+}
+
+message CheckPasswordSetResp {
+    bool isSet = 1;
+}
+
+message RegisterWithThirdPartyReq {
+	string email = 1;
+	string phone = 2;
+	string password = 3;
+	string verifyCode = 4;
+	string authType = 5;
+	string authID = 6;
+}
+
+message ThirdPartyCallbackReq {
+  string code = 1;
+  string state = 2;
+  string error = 3;
+  string error_description = 4;
+}
+
+service UserService {
+	rpc LoginOrRegister(LoginOrRegisterReq) returns(LoginOrRegisterResp) {
+		option (api.post) = "/api/v1/user/login-or-register";
+	}
+
+	rpc RegisterWithThirdParty(RegisterWithThirdPartyReq) returns(Empty) {
+		option (api.post) = "/api/v1/user/register-with-third-party";
+	}
+
+	rpc GetUserBasicInfo(Empty) returns(GetUserBasicInfoResp) {
+		option (api.post) = "/api/v1/user/get-user-basic-info";
+	}
+
+	rpc UpdateUserInfo(UpdateUserInfoReq) returns(Empty) {
+	    option (api.post) = "/api/v1/user/update-info";
+	}
+
+	rpc ChangePassword(ChangePasswordReq) returns(Empty) {
+	    option (api.post) = "/api/v1/user/change-password";
+	}
+
+	rpc Logout(Empty) returns(Empty) {
+	    option (api.post) = "/api/v1/user/logout";
+	}
+
+	rpc CheckPasswordSet(Empty) returns(CheckPasswordSetResp) {
+        option (api.post) = "/api/v1/user/check-password-set";
+    }
+
+    rpc ThirdPartyCallback(ThirdPartyCallbackReq) returns (Empty) {
+        option (api.get) = "/api/v1/user/third-party/callback";
+    }
+}

@@ -1,0 +1,7 @@
+google_auth_config:
+  client_id: 1048980397349-5p06gpqjf1bcjvp6hnecktrv54rl5aus.apps.googleusercontent.com
+  client_secret: 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
+  redirect_url: http://localhost:8888/api/v1/user/third-party/callback
+  scopes:
+    - https://www.googleapis.com/auth/userinfo.id
+

@@ -1,0 +1,30 @@
+// idl/cms_http_api/hello.proto
+syntax = "proto3";
+
+package verify;
+
+option go_package = "verify";
+
+import "api.proto";
+
+message SendSMSReq {
+    string phone = 1;
+    optional map<string, string> ext = 2;
+}
+
+message SendEmallReq {
+    string emall = 1;
+    optional map<string, string> ext = 2;
+}
+
+message Empty {}
+
+service VerifyService {
+    rpc SendSMS(SendSMSReq) returns(Empty) {
+		option (api.post) = "/api/v1/verify/send-sms";
+	}
+
+    rpc SendEmall(SendEmallReq) returns(Empty) {
+        option (api.post) = "/api/v1/verify/send-email";
+    }
+}
