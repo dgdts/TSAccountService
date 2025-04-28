@@ -7,7 +7,7 @@ import (
 )
 
 type User struct {
-	UserName string `json:"user_name"`
+	ID string
 }
 
 type BizContext struct {

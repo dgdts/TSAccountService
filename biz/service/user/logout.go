@@ -4,7 +4,12 @@ import (
 	"context"
 
 	"TSAccountService/biz/bizcontext"
+	"TSAccountService/biz/config/biz_config"
+	"TSAccountService/biz/constant"
+	"TSAccountService/biz/errno"
 	user "TSAccountService/hertz_gen/user"
+
+	"TSAccountService/biz/utils"
 
 	"github.com/cloudwego/hertz/pkg/app"
 )
@@ -19,14 +24,11 @@ func NewLogoutService(Context context.Context, RequestContext *app.RequestContex
 }
 
 func (h *LogoutService) Run(ctx *bizcontext.BizContext, req *user.Empty) (resp *user.Empty, err error) {
-	//defer func() {
-	// hlog.CtxInfof(h.Context, "req = %+v", req)
-	// hlog.CtxInfof(h.Context, "resp = %+v", resp)
-	//}()
-	// todo edit your code
-	// define your error in errno
-	// if err != nil {
-	// 	return nil, err
-	// }
-	return
+	token := h.RequestContext.Request.Header.Get(constant.HeaderToken)
+	if token == "" {
+		return nil, errno.TokenEmptyErr
+	}
+	err = utils.SetLogout(ctx, token, biz_config.GetBizConfig().JWTConfig.ExpireMinute)
+
+	return &user.Empty{}, err
 }

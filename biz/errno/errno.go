@@ -9,6 +9,7 @@ const (
 	SuccessCode     = 0
 	GlobalErrorCode = 1000
 	AuthErrorCode   = 10000
+	UserErrorCode   = 20000
 )
 
 // Global error
