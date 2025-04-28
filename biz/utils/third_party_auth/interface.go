@@ -15,7 +15,7 @@ func Oauth(ctx *bizcontext.BizContext, authType string) error {
 	case GoogleAuthType:
 		auth = new(googleAuth)
 	default:
-		return errno.ErrUnsupportedAuthType
+		return errno.UnsupportedAuthTypeErr
 	}
 	return auth.Oauth(ctx)
 }

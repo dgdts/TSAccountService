@@ -7,7 +7,7 @@ global:
 mode: local
 
 hertz:
-  app: “YOUR-APP-NAME”
+  app: "TSAccountApp"
   server: "enterbuild"
   enable_pprof: true
   enable_gzip: true

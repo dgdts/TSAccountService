@@ -13,6 +13,7 @@ import (
 	"TSAccountService/biz/log"
 	"TSAccountService/biz/middelware"
 	"TSAccountService/biz/utils/third_party_auth"
+	"TSAccountService/kit/verify_code"
 
 	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
 	"github.com/cloudwego/hertz/pkg/app/server/render"
@@ -25,6 +26,10 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"gopkg.in/natefinch/lumberjack.v2"
+
+	tsjwt "github.com/dgdts/ts-gobase/jwt"
+	tsmongodb "github.com/dgdts/ts-gobase/mongo"
+	tsredis "github.com/dgdts/ts-gobase/redis"
 )
 
 func InitServer(service global_config.Service) (h *server.Hertz) {
@@ -88,12 +93,19 @@ func InitServer(service global_config.Service) (h *server.Hertz) {
 	})
 
 	// init redis
-	// tsredis.InitRedis(nil)
+	tsredis.InitRedis(biz_config.GetBizConfig().RedisConfig)
 
 	// init mongodb
-	// tsmongodb.InitMongoDB(nil)
+	tsmongodb.InitOrmMongoDB(&biz_config.GetBizConfig().MongoDBConfig)
 
 	third_party_auth.InitGoogleAuth(biz_config.GetBizConfig().GoogleAuthConfig)
+	tsjwt.InitJWT(biz_config.GetBizConfig().JWTConfig)
+
+	verify_code.InitRedisVerifyCodeService(
+		tsredis.GetConnection(),
+		biz_config.GetBizConfig().VerifyCodeOption,
+		constant.VerifyCodeLoginOrRegisterTemplate,
+	)
 
 	middelware.InitMiddeleware(h)
 

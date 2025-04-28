@@ -1,7 +1,40 @@
 google_auth_config:
-  client_id: *
-  client_secret: *
+  client_id: "t" # should set in env in production
+  client_secret: "t" # should set in env in production
   redirect_url: http://localhost:8888/api/v1/user/third-party/callback
   scopes:
     - https://www.googleapis.com/auth/userinfo.id
+
+mongo_db_config:
+  path: "localhost:27017"
+  username: "rw_user"
+  password: "JGw91l&^9LfaEkYm"
+  max_pool_size: 20
+  min_pool_size: 10
+  database: tsmall_account_debug
+
+jwt_config:
+  secret_key: zyfa720SiDAmHi2WVD3JxgD1bHlTi/diUzB2fc8D4Jw= # should set in env in production
+  expire_minute: 1440
+
+redis_config:
+  default:
+    universal_addrs: 
+      - "localhost:6379"
+    password: ""
+    idle_timeout: 30
+    db: 0
+    pool_size: 50
+
+verify_code_option:
+  interval: 60
+  limit: 20
+  lifetime: 300
+  error_times: 5
+  success_times: 1
+
+mock_config:
+  enable: true
+  sms_code: "123456"
+  email_code: "123456"
 

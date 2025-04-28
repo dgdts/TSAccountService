@@ -9,12 +9,12 @@ import "api.proto";
 
 message SendSMSReq {
     string phone = 1;
-    optional map<string, string> ext = 2;
+    map<string, string> ext = 2;
 }
 
 message SendEmallReq {
     string emall = 1;
-    optional map<string, string> ext = 2;
+    map<string, string> ext = 2;
 }
 
 message Empty {}

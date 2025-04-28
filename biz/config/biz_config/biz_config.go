@@ -9,12 +9,29 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"TSAccountService/biz/config/global_config"
+
+	tsjwt "github.com/dgdts/ts-gobase/jwt"
+	tsmongodb "github.com/dgdts/ts-gobase/mongo"
+	tsredis "github.com/dgdts/ts-gobase/redis"
+	tsverify "github.com/dgdts/ts-gobase/verify_code"
 )
 
 var bizConfig *BizConfig
 
+type MockConfig struct {
+	Enable    bool   `yaml:"enable"`
+	SMSCode   string `yaml:"sms_code"`
+	EmailCode string `yaml:"email_code"`
+}
+
 type BizConfig struct {
 	GoogleAuthConfig third_party_auth.GoogleAuthConfig `yaml:"google_auth_config"`
+	MongoDBConfig    tsmongodb.MongoClientConfig       `yaml:"mongo_db_config"`
+	JWTConfig        tsjwt.JWTConfig                   `yaml:"jwt_config"`
+	RedisConfig      map[string]*tsredis.RedisClient   `yaml:"redis_config"`
+	VerifyCodeOption tsverify.VerifyCodeOption         `yaml:"verify_code_option"`
+
+	MockConfig MockConfig `yaml:"mock_config"`
 }
 
 func BizConfigInit(config *global_config.Config) {
